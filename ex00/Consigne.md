@@ -1,4 +1,4 @@
-# Exercise 00 - $PATH
+# Exercise 00 - CryptoMutant
 
 |                         |                    |
 | -----------------------:| ------------------ |
