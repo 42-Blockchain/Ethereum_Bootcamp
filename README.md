@@ -1,2 +1,2 @@
-# Bootcamp_0x1_ethereum
+# Bootcamp_0x1_Solidity
 Ethereum bootcamp initiation
