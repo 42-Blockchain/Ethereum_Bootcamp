@@ -1,16 +1,16 @@
 //SPDX-License-Identifier: UNLICENCED
 pragma solidity ^0.8.0;
 
-contract CryptoMutant {
+contract SentientProgram {
     address private admin;
-    uint256 private TxCount;
+    uint256 private experience;
     bool isContractMature;
     string public contractName;
     uint256 public maturityAge; //should we precise the visibility of this variable to the students ?
     
     constructor(uint256 _maturityAge) {
         admin = msg.sender;
-        TxCount = 1;
+        experience = 1;
         require(_maturityAge >= 21, "in constructor: The maturity Age is too low");
         maturityAge = _maturityAge;
     }
@@ -21,16 +21,16 @@ contract CryptoMutant {
     }
     
     function isMature() public view returns(bool) {
-        return (isContractMature == true); //Or return (isContractMature) Or return(TxCount >= maturityAge)
+        return (isContractMature == true); //Or return (isContractMature) Or return(experience >= maturityAge)
     }
     
-    function avadakedabra(string calldata _magicWord) external {
-        require(bytes(_magicWord).length <= 42, "in avadakedabra: the string provided is too long");
+    function reinforce(string calldata _magicWord) external {
+        require(bytes(_magicWord).length <= 42, "string too long");
         if (isCryptonicTime(_magicWord, block.timestamp)){
-            TxCount += 10;
+            experience += 10;
         }
-        else TxCount++;
-        if (TxCount >= maturityAge)
+        else experience++;
+        if (experience >= maturityAge)
             isContractMature = true;
     }
     
@@ -38,8 +38,8 @@ contract CryptoMutant {
         return ((_currentTime - bytes(_magicString).length) % 2 != 0);
     }
     
-    function resetMaturity() public {
-        TxCount =  1;
+    function resetMaturity() public onlyAdmin {
+        experience =  1;
         if (isContractMature)
             isContractMature = false;
     }
