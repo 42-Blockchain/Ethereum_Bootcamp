@@ -1,7 +1,9 @@
 //SPDX-License-Identifier: UNLICENCED
 pragma solidity ^0.8.0;
+import "./Interfaces/IMetadata.sol";
+import "./Interfaces/ICounter.sol";
 
-contract CryptoMutant {
+contract CryptoMutant is IMetadata, ICounter {
     address private admin;
     uint256 private TxCount;
     bool isContractMature;
@@ -42,5 +44,17 @@ contract CryptoMutant {
         TxCount =  1;
         if (isContractMature)
             isContractMature = false;
+    }
+
+    function getContractName() external view override returns(string memory) {
+        return contractName;
+    }
+
+    function setContractName(string memory _newContractName) external override {
+        contractName = _newContractName;
+    }
+    
+    function getTxCount() external view override returns (uint256){
+        return TxCount;
     }
 }
