@@ -25,7 +25,7 @@ Create a smart contract named "**SentientProgram"** which:
 
 - implements an external function called '**reinforce**' which takes a string in parameter and increases the **experience** variable as follows:
 
-    **experience** is increased by 10 if this function is invoked at a cryptonic time. The string given in parameter is [**required 🦄**](https://docs.soliditylang.org/en/latest/control-structures.html#error-handling-assert-require-revert-and-exceptions) to be at most 42 characters wide, otherwise the fonction reverts.
+    **experience** is increased by 10 if this function is invoked at a cryptonic time. The string given in parameter is [**required 🐇**](https://docs.soliditylang.org/en/latest/control-structures.html#error-handling-assert-require-revert-and-exceptions) to be at most 42 characters wide, otherwise the fonction reverts.
 
     **experience** is increased by 1 if the invokation time is not cryptonic
 
