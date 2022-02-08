@@ -28,7 +28,7 @@ mkdir ~/.nvm \
 #### Install `node` 16.13.2 (latest LTS)
 
 ```
-nvm install 16
+nvm install 16.13.2
 ```
 ___
 :construction: :construction_worker: Now you ready ! :construction_worker: :construction:
