@@ -1,7 +1,11 @@
 import "./App.css";
 import getWeb3 from "./getWeb3";
+import 'semantic-ui-css/semantic.min.css';
+import DaysList from "./components/DaysList";
+import * as Logo from './ressources/42BClogo.png';
 import React, { useState, useEffect } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import { Segment, Image, Card, Container, CardHeader, CardContent, Divider, Label, Header} from 'semantic-ui-react';
 
 const App = () => {
   const [web3, setWeb3] = useState(null);
@@ -49,9 +53,9 @@ const App = () => {
   }, [web3, accounts]);
 
   useEffect(() => {
-    if (contract && accounts){
-      runExample();
-    }
+    // if (contract && accounts){
+    //   runExample();
+    // }
   }, [web3, contract, accounts]);
 
   const runExample = async () => {
@@ -77,17 +81,31 @@ const App = () => {
     }
     return (
       <div className="App">
-        <h1>Good to Go!</h1>
-        <p>Your Truffle Box is installed and ready.</p>
-        <h2>Smart Contract Example</h2>
-        <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
-        </p>
-        <p>
-          Try changing the value stored on <strong>line 42</strong> of App.js.
-        </p>
-        <div>The stored value is: {storageValue}</div>
+        <div className="App-header">
+          Ethereum Blockchain BootCamp - 0x01
+        </div>
+          <Image
+                centered
+                src = {Logo}
+                // size="medium"
+                size="small"
+          />
+          <Header as="h3"> Hello Peers !</Header>
+          {/* <Segment raised size="large" textAlign="center"> */}
+              <p></p>
+              <p>Welcome to this very first Ethereum Blockchain bootcamp.</p>
+              <div>
+                <p>This bootcamp is designed for absolute beginners.</p>
+                 <p>You will progressively be introduced to the ethereum blockchain ecosystem.</p>
+              </div>
+          {/* </Segment> */}
+          <Divider/>
+          <Container >
+            <DaysList />
+          </Container>
+          <Divider/>
+
+        
       </div>
     );
 }
