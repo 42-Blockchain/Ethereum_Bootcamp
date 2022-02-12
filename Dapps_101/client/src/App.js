@@ -90,13 +90,13 @@ const App = () => {
                 // size="medium"
                 size="small"
           />
-          <Header as="h3"> Hello Peers !</Header>
           {/* <Segment raised size="large" textAlign="center"> */}
-              <p></p>
-              <p>Welcome to this very first Ethereum Blockchain bootcamp.</p>
-              <div>
+              <div className="Introduction">
+              <h2>Hello Peers !</h2>
+             <h3><p>Welcome to this very first Ethereum Blockchain bootcamp, by 42 blockchain</p>
                 <p>This bootcamp is designed for absolute beginners.</p>
                  <p>You will progressively be introduced to the ethereum blockchain ecosystem.</p>
+                 </h3> 
               </div>
           {/* </Segment> */}
           <Divider/>

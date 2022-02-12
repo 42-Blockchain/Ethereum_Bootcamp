@@ -20,8 +20,9 @@
 }
 
 .App {
+  color: white;
   min-height: 100vh;
-  background: linear-gradient(#fefcfc, #310864fd);
+  background: linear-gradient(#060117,#0b012a, #780351);
 }
 
 .DaysList {
@@ -29,6 +30,11 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+}
+
+.Introduction{
+  font-style: italic;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .App-link {
