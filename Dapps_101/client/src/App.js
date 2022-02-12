@@ -5,7 +5,7 @@ import DaysList from "./components/DaysList";
 import * as Logo from './ressources/42BClogo.png';
 import React, { useState, useEffect } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import { Segment, Image, Card, Container, CardHeader, CardContent, Divider, Label, Header} from 'semantic-ui-react';
+import { Segment, Image, Card, Container, CardHeader, CardContent, Divider, Label, Header, Input, Message, Icon} from 'semantic-ui-react';
 
 const App = () => {
   const [web3, setWeb3] = useState(null);
@@ -53,9 +53,10 @@ const App = () => {
   }, [web3, accounts]);
 
   useEffect(() => {
-    // if (contract && accounts){
+    if (contract && accounts){
     //   runExample();
-    // }
+    console.log("Accounts :: ", accounts)
+    }
   }, [web3, contract, accounts]);
 
   const runExample = async () => {
@@ -76,8 +77,67 @@ const App = () => {
       console.error(error);
     }
   };
+  if (!window.ethereum){
+    return (
+      <Container className="App">
+            {/* <DaysList /> */}
+            <div className="App-header">
+            Ethereum Blockchain BootCamp - 0x01
+          </div>
+            <Message className="Connection" compact>
+              {/* <Icon
+              bordered
+              circular
+              size="large"
+              className="power off"
+              /> */}
+              <h3>Install Metamask wallet to access the Bootcamp</h3>
+            </Message>
+            {/* <Input /> */}
+          </Container>
+    )
+  }
     if (!web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
+      // return <div>Loading Web3, accounts, and contract...</div>;
+      return (
+        <div className="App">
+          <div className="App-header">
+            Ethereum Blockchain BootCamp - 0x01
+          </div>
+          <Image
+                centered
+                src = {Logo}
+                // size="medium"
+                size="small"
+          />
+          {/* <Segment raised size="large" textAlign="center"> */}
+              <div className="Introduction">
+              <h2>Hello Peers !</h2>
+             <h3><p>Welcome to this very first Ethereum Blockchain bootcamp, by 42 blockchain</p>
+                <p>This bootcamp is designed for absolute beginners.</p>
+                 <p>You will progressively be introduced to the ethereum blockchain ecosystem.</p>
+                 </h3> 
+              </div>
+          {/* </Segment> */}
+          <Divider/>
+          <Container >
+            {/* <DaysList /> */}
+            <Message className="Connection" compact>
+              {/* <Icon
+              bordered
+              circular
+              size="large"
+              className="power off"
+              /> */}
+              <h3>Connect your Metamask wallet to access the Bootcamp</h3>
+            </Message>
+            {/* <Input /> */}
+          </Container>
+          <Divider/>
+
+        
+      </div>
+      )
     }
     return (
       <div className="App">
