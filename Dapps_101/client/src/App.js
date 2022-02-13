@@ -1,173 +1,122 @@
 import "./App.css";
-import getWeb3 from "./getWeb3";
-import 'semantic-ui-css/semantic.min.css';
+import "semantic-ui-css/semantic.min.css";
+import { useMetaMask } from "metamask-react";
 import DaysList from "./components/DaysList";
-import * as Logo from './ressources/42BClogo.png';
+import Intro from "./components/Introduction";
 import React, { useState, useEffect } from "react";
 import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import { Segment, Image, Card, Container, CardHeader, CardContent, Divider, Label, Header, Input, Message, Icon} from 'semantic-ui-react';
+import {
+  Icon,
+  Divider,
+  Message,
+  Container,
+} from 'semantic-ui-react';
+import Web3 from "web3";
 
 const App = () => {
   const [web3, setWeb3] = useState(null);
-  const [accounts, setAccounts] = useState(null);
+  const [account, setAccount] = useState(null);
   const [contract, setContract] = useState(null);
-  const [storageValue, setStorageValue] = useState(0);
+  const [metamaskStatus, setMetamaskStatus] = useState(null);
+  const { status, chainId, ethereum, connect } = useMetaMask();
 
-  const getWeb3Instane = async () => {
-    // Get network provider and web3 instance.
-    const _web3 = await getWeb3();
-    setWeb3(_web3);
-  }
-
-  const getUserAccount = async () => {
-    // Use web3 to get the user's accounts.
-    const _accounts = await web3.eth.getAccounts();
-    setAccounts(_accounts);
+  const connectMetamask = async () => {
+    if (ethereum && chainId) {
+      try {
+        if (Number(chainId) !== 0x4) {
+          alert(`${chainId} - Switch your metamask network to Rinkeby and reconnect`);
+        } else {
+          const _web3 = new Web3(ethereum);
+          if (_web3) {
+            console.log("setting Web3 provider");
+            console.log(`Connection on network id ${chainId}... : `, _web3)
+            setWeb3(_web3);
+          }
+          const accounts = await connect();
+          setAccount(accounts[0]);
+        }
+      } catch (error) {
+        console.log("There were an error : ", error);
+      }
+    }
   }
 
   const getContractInstance = async () => {
-     // Get the contract instance.
-     const networkId = await web3.eth.net.getId();
-     const deployedNetwork = SimpleStorageContract.networks[networkId];
-     const instance = new web3.eth.Contract(
-       SimpleStorageContract.abi,
-       deployedNetwork && deployedNetwork.address,
-     );
-     setContract(instance);
+    // Get the contract instance.
+    const deployedNetwork = SimpleStorageContract.networks[chainId];
+    const instance = new web3.eth.Contract(
+      SimpleStorageContract.abi,
+      deployedNetwork && deployedNetwork.address,
+    );
+    setContract(instance);
   }
 
+  if (ethereum) {
+    ethereum.on('connect', (infos) => {
+      console.log("Metamask is now connected :: ", infos);
+
+      ethereum.on('disconnect', () => {
+        console.log("Disconnection from metamask .. ");
+        setAccount(null);
+        window.location.reload();
+      })
+
+      ethereum.on('chainChanged', (chainId) => {
+        // Handle the new chain.
+        // Correctly handling chain changes can be complicated.
+        // We recommend reloading the page unless you have good reason not to.
+        window.location.reload();
+      });
+    });
+  }
   useEffect(() => {
-    getWeb3Instane();
-  }, []);
+    console.log("CHANGE", status);
+    if (account && status === 'notConnected') {
+      window.location.reload();
+    }
+  }, [status])
 
   useEffect(() => {
-    if (web3 !== null){
-      getUserAccount();
-    }
-  }, [web3]);
+    setMetamaskStatus(status);
+  }, [web3, account]);
 
-  useEffect(() => {
-    if (web3 && accounts){
-      getContractInstance();
-    }
-  }, [web3, accounts]);
-
-  useEffect(() => {
-    if (contract && accounts){
-    //   runExample();
-    console.log("Accounts :: ", accounts)
-    }
-  }, [web3, contract, accounts]);
-
-  const runExample = async () => {
-    try {
-      // Stores a given value, 5 by default.
-      await contract.methods.set(5).send({ from: accounts[0] });
-  
-      // Get the value from the contract to prove it worked.
-      const response = await contract.methods.get().call();
-  
-      // Update state with the result.
-      setStorageValue(response);
-    } catch(error){
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
-      );
-      console.error(error);
-    }
-  };
-  if (!window.ethereum){
+  if (metamaskStatus === 'unavailable') {
     return (
       <Container className="App">
-            {/* <DaysList /> */}
-            <div className="App-header">
-            Ethereum Blockchain BootCamp - 0x01
-          </div>
-            <Message className="Connection" compact>
-              {/* <Icon
-              bordered
-              circular
-              size="large"
-              className="power off"
-              /> */}
-              <h3>Install Metamask wallet to access the Bootcamp</h3>
-            </Message>
-            {/* <Input /> */}
-          </Container>
-    )
-  }
-    if (!web3) {
-      // return <div>Loading Web3, accounts, and contract...</div>;
-      return (
-        <div className="App">
-          <div className="App-header">
-            Ethereum Blockchain BootCamp - 0x01
-          </div>
-          <Image
-                centered
-                src = {Logo}
-                // size="medium"
-                size="small"
-          />
-          {/* <Segment raised size="large" textAlign="center"> */}
-              <div className="Introduction">
-              <h2>Hello Peers !</h2>
-             <h3><p>Welcome to this very first Ethereum Blockchain bootcamp, by 42 blockchain</p>
-                <p>This bootcamp is designed for absolute beginners.</p>
-                 <p>You will progressively be introduced to the ethereum blockchain ecosystem.</p>
-                 </h3> 
-              </div>
-          {/* </Segment> */}
-          <Divider/>
-          <Container >
-            {/* <DaysList /> */}
-            <Message className="Connection" compact>
-              {/* <Icon
-              bordered
-              circular
-              size="large"
-              className="power off"
-              /> */}
-              <h3>Connect your Metamask wallet to access the Bootcamp</h3>
-            </Message>
-            {/* <Input /> */}
-          </Container>
-          <Divider/>
-
-        
-      </div>
-      )
-    }
-    return (
-      <div className="App">
         <div className="App-header">
           Ethereum Blockchain BootCamp - 0x01
         </div>
-          <Image
-                centered
-                src = {Logo}
-                // size="medium"
-                size="small"
-          />
-          {/* <Segment raised size="large" textAlign="center"> */}
-              <div className="Introduction">
-              <h2>Hello Peers !</h2>
-             <h3><p>Welcome to this very first Ethereum Blockchain bootcamp, by 42 blockchain</p>
-                <p>This bootcamp is designed for absolute beginners.</p>
-                 <p>You will progressively be introduced to the ethereum blockchain ecosystem.</p>
-                 </h3> 
-              </div>
-          {/* </Segment> */}
-          <Divider/>
-          <Container >
-            <DaysList />
-          </Container>
-          <Divider/>
-
-        
+        <Message className="Connection" compact>
+          <h3>Install Metamask wallet to access the Bootcamp</h3>
+        </Message>
+      </Container>
+    )
+  }
+  if (status !== 'connected' || !account) {
+    return (
+      <div className="App">
+        <Intro />
+        <Divider />
+        <Container onClick={connectMetamask} >
+          <Message compact className="Connection">
+            <h3> <Icon name="power off" />
+              Start</h3>
+          </Message>
+        </Container>
+        <Divider />
       </div>
-    );
+    )
+  }
+  return (
+    <div className="App">
+      <Intro />
+      <Divider />
+      <Container className="Bootcamp">
+        <DaysList />
+      </Container>
+      <Divider />
+    </div>
+  );
 }
 
 export default App;
