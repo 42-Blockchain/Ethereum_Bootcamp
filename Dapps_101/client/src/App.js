@@ -49,42 +49,31 @@ const App = () => {
       deployedNetwork && deployedNetwork.address,
     );
     setContract(instance);
-  }
+  }  
 
-  if (ethereum) {
-    ethereum.on('connect', (infos) => {
-      console.log("Metamask is now connected :: ", infos);
-
+  useEffect(() => () => {
+    if (ethereum){
       ethereum.on('disconnect', () => {
         console.log("Disconnection from metamask .. ");
         setAccount(null);
-        window.location.reload();
-      })
-
+      });
+  
       ethereum.on('chainChanged', (chainId) => {
-        // Handle the new chain.
-        // Correctly handling chain changes can be complicated.
-        // We recommend reloading the page unless you have good reason not to.
+        console.log('Chain changed ..')
         window.location.reload();
       });
-    });
-  }
-  useEffect(() => {
-    console.log("CHANGE", status);
-    if (account && status === 'notConnected') {
-      window.location.reload();
+  
+      ethereum.on('connect', (infos) => {
+        console.log("Metamask is now connected :: ", infos);
+      });
     }
-  }, [status])
-
-  useEffect(() => {
-    setMetamaskStatus(status);
-  }, [web3, account]);
+  }, [status, ethereum])
 
   if (metamaskStatus === 'unavailable') {
     return (
       <Container className="App">
         <div className="App-header">
-          Ethereum Blockchain BootCamp - 0x01
+          Ethereum BootCamp
         </div>
         <Message className="Connection" compact>
           <h3>Install Metamask wallet to access the Bootcamp</h3>
@@ -95,7 +84,7 @@ const App = () => {
   if (status !== 'connected' || !account) {
     return (
       <div className="App">
-        <Intro />
+        <Intro account={account}/>
         <Divider />
         <Container onClick={connectMetamask} >
           <Message compact className="Connection">
@@ -109,7 +98,7 @@ const App = () => {
   }
   return (
     <div className="App">
-      <Intro />
+      <Intro account={account}/>
       <Divider />
       <Container className="Bootcamp">
         <DaysList />

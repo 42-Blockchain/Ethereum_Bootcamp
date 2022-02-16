@@ -1,12 +1,26 @@
 import React from 'react';
-import {Image} from 'semantic-ui-react';
+import {Image, Segment, Icon} from 'semantic-ui-react';
 import * as Logo from '../ressources/42BClogo.png';
 
-const Intro = () => {
+const Intro = ({account}) => {
+
+    const disconnect = async () => {
+        console.log("GOOD BYE", window.ethereum);
+        await window.ethereum._handleDisconnect("disconnect", "");
+    }
+
     return (
         <div className="Introduction">
             <div className="App-header">
-                Ethereum Blockchain BootCamp - 0x01
+                <div>Ethereum BootCamp</div>
+                    {account && <div> 
+                        <Segment floated='left' className="Account" textAlign='right' >
+                            Wallet : {account} {<Icon onClick={async () => await disconnect()} circular className = "Power-off" name="power off"/>}
+                        </Segment></div> ||
+                        !account && <div><Segment floated='left' className="Account" textAlign='right' >
+                        Disconneted
+                    </Segment></div>
+                    }
             </div>
             <Image
             centered

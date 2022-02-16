@@ -1,7 +1,7 @@
 import React from "react";
 import * as Build from '../ressources/Buidl.png';
 import * as Metamask from '../ressources/metamask.jpeg';
-import {Card, Label, CardDescription, CardHeader, Grid, Image} from 'semantic-ui-react';
+import {Card, Label, CardDescription, CardHeader, Grid, Image, Container, Segment, GridColumn} from 'semantic-ui-react';
 import * as ThinkingBlockchain from '../ressources/Thinking_blockchain.png';
 
 const DaysList = () => {
@@ -42,13 +42,11 @@ const DaysList = () => {
     const daysList = [day0, day1, day2, day3, day4, day5];
 
     return (
-        <Grid className="DaysList" stackable centered columns={3}>
-
+        <Grid container className="DaysList" doubling columns={3} centered>
             {daysList.map((day, key) => {
                 return (
-                    <Grid.Column key={key}>
-
-                        <Card>
+                    <GridColumn key={key}>
+                        <Card >
                             <Label>
                                 <CardHeader textAlign="center">
                                         {day.label}
@@ -64,7 +62,7 @@ const DaysList = () => {
                             </Label>
 
                         </Card>
-                    </Grid.Column>
+                    </GridColumn>
                 )
             })}
         </Grid>
