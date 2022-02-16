@@ -3,12 +3,13 @@
 }
 
 .App-header {
-  background: linear-gradient(#ffffff80, #ffffff85, #ffffff);
+  background: linear-gradient(#ffffff80, #ffffff, #ffffffa3);
   padding: 2%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   font-family:'Courier New', Courier, monospace; 
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
@@ -22,6 +23,20 @@
   text-align: center;
   background: linear-gradient(#10023c,#03000c, #780351);
   background: linear-gradient(#10023c,#03000c, #780351, #08012f);
+}
+
+.Account{
+  /* font-size: small; */
+  /* border-style: solid; */
+  /* border-color: #6c0db0dd !important; */
+  /* position: relative !important;
+  left: 75m; */
+  /* margin-bottom: 2.1% !important; */
+  min-width: 21%;
+  color: rgb(99, 3, 21);
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(#fefefe,#ffffff6a, #a5a4a4fe, #fefefe) !important;
+
 }
 
 .Connection {
@@ -58,4 +73,14 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.Power-off {
+  cursor: pointer;
+  background: linear-gradient(#fefefe,#ffffff6a, #a5a4a4fe, #fefefe) !important;
+}
+
+.Power-off:hover {
+  cursor: pointer;
+  background: linear-gradient(#6f19197e,#ffffff6a, #a5a4a4fe, #936767) !important;
 }
