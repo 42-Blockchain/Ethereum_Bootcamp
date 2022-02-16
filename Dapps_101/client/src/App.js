@@ -86,12 +86,10 @@ const App = () => {
       <div className="App">
         <Intro account={account}/>
         <Divider />
-        <Container onClick={connectMetamask} >
-          <Message compact className="Connection">
+          <Message onClick={connectMetamask} compact className="Connection">
             <h3> <Icon name="power off" />
               Start</h3>
           </Message>
-        </Container>
         <Divider />
       </div>
     )
