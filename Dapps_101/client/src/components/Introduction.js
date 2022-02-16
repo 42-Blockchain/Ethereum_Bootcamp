@@ -9,18 +9,29 @@ const Intro = ({account}) => {
         await window.ethereum._handleDisconnect("disconnect", "");
     }
 
+    const displayConnectionState = (account) => {
+        if (account)
+            return (
+                <div> 
+                    <Segment floated='left' className="Account" textAlign='right' >
+                        Wallet : {account} {<Icon onClick={async () => await disconnect()} circular className = "Power-off" name="power off"/>}
+                    </Segment>
+                </div>
+            );
+        return (
+            <div>
+                <Segment floated='left' className="Account" textAlign='right' >
+                    Disconneted
+                </Segment>
+            </div>
+        )
+    }
+
     return (
         <div className="Introduction">
             <div className="App-header">
                 <div>Ethereum BootCamp</div>
-                    {account && <div> 
-                        <Segment floated='left' className="Account" textAlign='right' >
-                            Wallet : {account} {<Icon onClick={async () => await disconnect()} circular className = "Power-off" name="power off"/>}
-                        </Segment></div> ||
-                        !account && <div><Segment floated='left' className="Account" textAlign='right' >
-                        Disconneted
-                    </Segment></div>
-                    }
+                {displayConnectionState(account)}
             </div>
             <Image
             centered
